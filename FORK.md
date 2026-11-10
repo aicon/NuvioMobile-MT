@@ -1,4 +1,4 @@
-# NuvioMobile-Scrobbler (product fork)
+# NuvioMobile-MT (product fork)
 
 Personal product fork of [NuvioMedia/NuvioMobile](https://github.com/NuvioMedia/NuvioMobile).  
 **Not an official Nuvio build.**
@@ -15,11 +15,11 @@ Installs next to the official app; data stores are separate.
 
 ## Updates
 
-In-app updater targets `aicon/NuvioMobile-Scrobbler` GitHub Releases. Do not publish public releases until signing and a local dry-run are verified.
+In-app updater targets `aicon/NuvioMobile-MT` GitHub Releases. Do not publish public releases until signing and a local dry-run are verified.
 
 ## Contracts (shared with TV fork)
 
-Same behaviour goals as `NuvioTV-Scrobbler`:
+Same behaviour goals as `NuvioTV-MT`:
 
 1. AUTO engine prefers libmpv for AVI (meta/mime/path), keep manual switch + failover.
 2. Stremio `player` events to addons (start/pause/stop + progress interval, no ticks while paused).
@@ -30,7 +30,7 @@ Mobile Compose player wiring for (1)(2) follows the TV implementation in a later
 ## Remotes
 
 ```
-origin    https://github.com/aicon/NuvioMobile-Scrobbler.git
+origin    https://github.com/aicon/NuvioMobile-MT.git
 upstream  https://github.com/NuvioMedia/NuvioMobile.git
 ```
 
