@@ -224,6 +224,37 @@ class AutoPlaybackEngineResolverTest {
     }
 
     @Test
+    fun aviSelectsLibmpvOnAuto() {
+        assertEquals(AndroidPlaybackEngine.Libmpv, resolve(filename = "Movie.1999.XviD.avi"))
+        assertEquals(AndroidPlaybackEngine.Libmpv, resolve(streamName = "AVI"))
+        assertEquals(AndroidPlaybackEngine.Libmpv, resolve(filename = "release.xvid.mkv"))
+    }
+
+    @Test
+    fun aviUrlSelectsLibmpvAndHdrKeepsExoPlayer() {
+        assertEquals(
+            AndroidPlaybackEngine.Libmpv,
+            resolve(streamUrl = "https://cdn.example/files/clip.avi?token=1"),
+        )
+        assertEquals(
+            AndroidPlaybackEngine.ExoPlayer,
+            resolve(filename = "Movie.avi", title = "Movie HDR"),
+        )
+    }
+
+    @Test
+    fun savedExoPlayerYieldsToLibmpvForAviUnlessHdr() {
+        assertEquals(
+            AndroidPlaybackEngine.Libmpv,
+            resolve(setting = AndroidPlaybackEngine.ExoPlayer, filename = "Show.avi"),
+        )
+        assertNull(
+            resolve(setting = AndroidPlaybackEngine.ExoPlayer, filename = "Show.avi", title = "HDR10"),
+        )
+        assertNull(resolve(setting = AndroidPlaybackEngine.Libmpv, filename = "Show.avi"))
+    }
+
+    @Test
     fun noSignalsAtAllFallThroughToExoPlayer() {
         assertEquals(AndroidPlaybackEngine.ExoPlayer, resolve())
         assertEquals(AndroidPlaybackEngine.ExoPlayer, resolve(videoId = "", title = ""))
@@ -238,6 +269,7 @@ class AutoPlaybackEngineResolverTest {
         title: String? = null,
         genres: List<String> = emptyList(),
         country: String? = null,
+        streamUrl: String? = null,
     ): AndroidPlaybackEngine? = resolveAutoPlaybackEngine(
         playbackEngineSetting = setting,
         videoId = videoId,
@@ -247,5 +279,6 @@ class AutoPlaybackEngineResolverTest {
         contentTitle = title,
         genres = genres,
         country = country,
+        streamUrl = streamUrl,
     )
 }

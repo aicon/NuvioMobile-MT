@@ -4,7 +4,7 @@
 
 ---
 
-**Önálló telefonos kliens, a [NuvioMobile](https://github.com/NuvioMedia/NuvioMobile) forkja saját csomagnévvel, saját alkalmazáson belüli frissítővel, a hivatalos alkalmazás mellé telepítve.**
+**Önálló telefonos kliens, a [NuvioMobile](https://github.com/NuvioMedia/NuvioMobile) forkja beépített MediaTrail scrobbler-támogatással, intelligens ExoPlayer/libmpv választással, saját csomagnévvel és saját frissítővel.**
 
 [![Verzió](https://img.shields.io/badge/verzió-legfrissebb-blue.svg)](https://github.com/aicon/NuvioMobile-MT/releases)
 [![Licenc: GPL v3](https://img.shields.io/badge/Licenc-GPL_v3-green.svg)](LICENSE)
@@ -16,9 +16,7 @@
 
 ## Áttekintés
 
-A NuvioMobile-MT a NuvioMobile független, közösségi kiadása telefonra és táblagépre. Megtartja az eredeti katalógust, forrásokat és lejátszást, és a hivatalos Nuvio mellé települ. A frissítések ebből a tárolóból jönnek.
-
-Az Android TV párja a [NuvioTV-MT](https://github.com/aicon/NuvioTV-MT). Az a kiadás küldi a lejátszási eseményeket a [MediaTrail-Scrobblernek](https://github.com/aicon/MediaTrail-Scrobbler). Ez a telefonos kiadás ezeket az eseményeket még nem küldi.
+A NuvioMobile-MT a NuvioMobile független, közösségi kiadása telefonra és táblagépre. Megtartja az eredeti katalógust és forrásokat, a hivatalos Nuvio mellé települ, és ugyanazt a MediaTrail-jelentést és lejátszómotor-választást adja, mint a [NuvioTV-MT](https://github.com/aicon/NuvioTV-MT).
 
 ---
 
@@ -29,7 +27,26 @@ Az Android TV párja a [NuvioTV-MT](https://github.com/aicon/NuvioTV-MT). Az a k
 - A hivatalos mobil Nuvio (`com.nuvio.app`) mellé települ, nem írja felül azt.
 - **Indítóikon neve:** **Nuvio**, angol és magyar rendszeren egyaránt.
 
-### 2. Saját alkalmazáson belüli frissítő
+### 2. MediaTrail lejátszás-szinkronizáció
+- Lejátszás közben továbbítja az eseményeket (`start`, `pause`, `progress`, `stop`) a `player` erőforrást hirdető addonoknak.
+- Együtt működik a **[MediaTrail-Scrobblerrel](https://github.com/aicon/MediaTrail-Scrobbler)**: kezeli a **„Most nézem”** sávot, a megtekintési küszöb után pedig az előzményt.
+- Aktív lejátszás alatt kb. 30 másodpercenként küld állapotot, szünet alatt nem.
+- A kép a telefonon marad. A MediaTrail csak a lejátszási eseményt kapja.
+- A kapcsoló a lejátszási beállításokban van, alapból bekapcsolva.
+
+### 3. Intelligens lejátszómotor-választás
+Az alapértelmezett motor az Auto:
+
+| Tartalom / formátum | Választott lejátszómotor |
+| :--- | :---: |
+| **Film és sorozat** | **ExoPlayer** |
+| **Anime** *(Kitsu, MAL, AniList, vagy anime műfaj)* | **libmpv** |
+| **AVI és XviD** | **libmpv**, akkor is, ha a mentett motor ExoPlayer |
+| **HDR és Dolby Vision** | **ExoPlayer** |
+
+Az adott lejátszásra kézzel választott motor ezt felülírja.
+
+### 4. Saját alkalmazáson belüli frissítő
 A beépített frissítő az `aicon/NuvioMobile-MT` nyilvános kiadásait nézi:
 - **Stabil csatorna:** a legutóbbi, nem előzetes kiadás, a `main` ágról.
 - **Béta csatorna:** a `dev` ág kiadásai közül a legmagasabb verzió, az előzeteseket is beleértve.

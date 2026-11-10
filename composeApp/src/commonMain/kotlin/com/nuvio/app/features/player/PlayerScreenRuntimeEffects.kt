@@ -43,6 +43,7 @@ import com.nuvio.app.features.watchprogress.buildPlaybackVideoId
 import com.nuvio.app.features.watching.application.WatchingState
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.isActive
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withTimeoutOrNull
 import nuvio.composeapp.generated.resources.*
@@ -438,7 +439,23 @@ internal fun PlayerScreenRuntime.BindPlayerRuntimeEffects() {
                 activeSourceAudioUrl == effectSourceAudioUrl
             ) {
                 flushWatchProgress()
+                emitAddonPlayerEvent("stop")
             }
+        }
+    }
+
+    LaunchedEffect(
+        playerSettingsUiState.addonPlayerEventsEnabled,
+        playerSettingsUiState.addonPlayerProgressIntervalSeconds,
+        playbackSnapshot.isPlaying,
+        activeVideoId,
+    ) {
+        if (!playerSettingsUiState.addonPlayerEventsEnabled || !playbackSnapshot.isPlaying) return@LaunchedEffect
+        val intervalMs = playerSettingsUiState.addonPlayerProgressIntervalSeconds.coerceIn(5, 300) * 1_000L
+        while (isActive) {
+            delay(intervalMs)
+            if (!playbackSnapshot.isPlaying || playbackSnapshot.isLoading || playbackSnapshot.isEnded) continue
+            emitAddonPlayerEvent("progress")
         }
     }
 
@@ -544,6 +561,7 @@ private fun PlayerScreenRuntime.BindPlayerUiVisibilityEffects() {
         )
         if (playbackSnapshot.isEnded) {
             flushWatchProgress(TrackingScrobbleAction.STOP)
+            emitAddonPlayerEvent("stop")
             previousIsPlaying = false
             pendingSeekScrobbleRestart = false
             return@LaunchedEffect
@@ -552,6 +570,7 @@ private fun PlayerScreenRuntime.BindPlayerUiVisibilityEffects() {
         if (previousIsPlaying && !playbackSnapshot.isPlaying && !playbackSnapshot.isLoading) {
             pendingSeekScrobbleRestart = false
             flushWatchProgress(TrackingScrobbleAction.PAUSE)
+            emitAddonPlayerEvent("pause")
         }
 
         if (playbackSnapshot.isPlaying && pendingSeekScrobbleRestart) {
@@ -563,6 +582,7 @@ private fun PlayerScreenRuntime.BindPlayerUiVisibilityEffects() {
             }
         } else if (!previousIsPlaying && playbackSnapshot.isPlaying) {
             emitTrackingScrobbleStart()
+            emitAddonPlayerEvent("start")
         }
 
         if (!playbackSnapshot.isLoading) {

@@ -25,6 +25,8 @@ actual object PlayerSettingsStorage {
     private const val showLoadingOverlayKey = "show_loading_overlay"
     private const val showPlayerLoadingStatusKey = "show_player_loading_status"
     private const val pauseOverlayEnabledKey = "pause_overlay_enabled"
+    private const val addonPlayerEventsEnabledKey = "addon_player_events_enabled"
+    private const val addonPlayerProgressIntervalSecondsKey = "addon_player_progress_interval_seconds"
     private const val showParentalGuideKey = "show_parental_guide"
     private const val resizeModeKey = "resize_mode"
     private const val holdToSpeedEnabledKey = "hold_to_speed_enabled"
@@ -124,6 +126,8 @@ actual object PlayerSettingsStorage {
         showLoadingOverlayKey,
         showPlayerLoadingStatusKey,
         pauseOverlayEnabledKey,
+        addonPlayerEventsEnabledKey,
+        addonPlayerProgressIntervalSecondsKey,
         showParentalGuideKey,
         resizeModeKey,
         holdToSpeedEnabledKey,
@@ -274,6 +278,26 @@ actual object PlayerSettingsStorage {
             ?.edit()
             ?.putBoolean(ProfileScopedKey.of(pauseOverlayEnabledKey), enabled)
             ?.apply()
+    }
+
+    actual fun loadAddonPlayerEventsEnabled(): Boolean? =
+        preferences?.let { sharedPreferences ->
+            val key = ProfileScopedKey.of(addonPlayerEventsEnabledKey)
+            if (sharedPreferences.contains(key)) sharedPreferences.getBoolean(key, true) else null
+        }
+
+    actual fun saveAddonPlayerEventsEnabled(enabled: Boolean) {
+        preferences?.edit()?.putBoolean(ProfileScopedKey.of(addonPlayerEventsEnabledKey), enabled)?.apply()
+    }
+
+    actual fun loadAddonPlayerProgressIntervalSeconds(): Int? =
+        preferences?.let { sharedPreferences ->
+            val key = ProfileScopedKey.of(addonPlayerProgressIntervalSecondsKey)
+            if (sharedPreferences.contains(key)) sharedPreferences.getInt(key, 30) else null
+        }
+
+    actual fun saveAddonPlayerProgressIntervalSeconds(seconds: Int) {
+        preferences?.edit()?.putInt(ProfileScopedKey.of(addonPlayerProgressIntervalSecondsKey), seconds)?.apply()
     }
 
     actual fun loadUseLegacyPlayerLayout(): Boolean? =
@@ -1519,6 +1543,8 @@ actual object PlayerSettingsStorage {
         loadShowLoadingOverlay()?.let { put(showLoadingOverlayKey, encodeSyncBoolean(it)) }
         loadShowPlayerLoadingStatus()?.let { put(showPlayerLoadingStatusKey, encodeSyncBoolean(it)) }
         loadPauseOverlayEnabled()?.let { put(pauseOverlayEnabledKey, encodeSyncBoolean(it)) }
+        loadAddonPlayerEventsEnabled()?.let { put(addonPlayerEventsEnabledKey, encodeSyncBoolean(it)) }
+        loadAddonPlayerProgressIntervalSeconds()?.let { put(addonPlayerProgressIntervalSecondsKey, encodeSyncInt(it)) }
         loadShowParentalGuide()?.let { put(showParentalGuideKey, encodeSyncBoolean(it)) }
         loadResizeMode()?.let { put(resizeModeKey, encodeSyncString(it)) }
         loadHoldToSpeedEnabled()?.let { put(holdToSpeedEnabledKey, encodeSyncBoolean(it)) }
@@ -1613,6 +1639,8 @@ actual object PlayerSettingsStorage {
         payload.decodeSyncBoolean(showLoadingOverlayKey)?.let(::saveShowLoadingOverlay)
         payload.decodeSyncBoolean(showPlayerLoadingStatusKey)?.let(::saveShowPlayerLoadingStatus)
         payload.decodeSyncBoolean(pauseOverlayEnabledKey)?.let(::savePauseOverlayEnabled)
+        payload.decodeSyncBoolean(addonPlayerEventsEnabledKey)?.let(::saveAddonPlayerEventsEnabled)
+        payload.decodeSyncInt(addonPlayerProgressIntervalSecondsKey)?.let(::saveAddonPlayerProgressIntervalSeconds)
         payload.decodeSyncBoolean(showParentalGuideKey)?.let(::saveShowParentalGuide)
         payload.decodeSyncString(resizeModeKey)?.let(::saveResizeMode)
         payload.decodeSyncBoolean(holdToSpeedEnabledKey)?.let(::saveHoldToSpeedEnabled)

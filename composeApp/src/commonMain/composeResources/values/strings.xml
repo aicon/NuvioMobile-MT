@@ -1172,7 +1172,11 @@
     <string name="settings_playback_secondary_subtitle_language">Secondary Preferred Language</string>
     <string name="settings_playback_section_decoder">DECODER</string>
     <string name="settings_playback_engine">Playback Engine</string>
-    <string name="settings_playback_engine_auto_description">ExoPlayer for Movies &amp; TV Shows · MPV for Anime</string>
+    <string name="settings_playback_engine_auto_description">ExoPlayer for movies and TV shows. MPV for anime and AVI.</string>
+    <string name="settings_addon_player_events">Addon player events</string>
+    <string name="settings_addon_player_events_description">Send start, pause, stop, and progress to installed addons that declare the player resource, such as the MediaTrail scrobbler.</string>
+    <string name="settings_addon_player_progress_interval">Progress update interval</string>
+    <string name="settings_addon_player_progress_interval_description">Every %1$d seconds while playing. No updates while paused.</string>
     <string name="settings_playback_engine_exoplayer_description">Use ExoPlayer and Android Media3 decoders.</string>
     <string name="settings_playback_engine_libmpv_description">Use libmpv for Android playback.</string>
     <string name="settings_playback_auto_switch_engine_on_error">Auto-switch engine on playback error</string>

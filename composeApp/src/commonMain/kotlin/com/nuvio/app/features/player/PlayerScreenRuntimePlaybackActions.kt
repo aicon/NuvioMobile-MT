@@ -1,5 +1,6 @@
 package com.nuvio.app.features.player
 
+import com.nuvio.app.features.addons.AddonPlayerEventDispatcher
 import com.nuvio.app.features.servers.ServerItemRef
 import com.nuvio.app.features.servers.ServerStreams
 import com.nuvio.app.features.tmdb.TmdbService
@@ -234,6 +235,50 @@ private fun TrackingScrobbleItemInputs.buildMedia(): TrackingMediaReference =
 
 internal fun PlayerScreenRuntime.currentTrackingMedia(): TrackingMediaReference =
     snapshotTrackingScrobbleItemInputs().buildMedia()
+
+internal fun PlayerScreenRuntime.emitAddonPlayerEvent(action: String) {
+    if (!playerSettingsUiState.addonPlayerEventsEnabled) return
+    val videoId = resolveAddonPlayerVideoId() ?: return
+    AddonPlayerEventDispatcher.emit(
+        action = action,
+        mediaType = contentType ?: parentMetaType,
+        videoId = videoId,
+        currentTimeMs = playbackSnapshot.positionMs.coerceAtLeast(0L),
+        durationMs = playbackSnapshot.durationMs.takeIf { it > 0L },
+        enabled = true,
+    )
+}
+
+internal fun PlayerScreenRuntime.resolveAddonPlayerVideoId(): String? {
+    val imdb = resolveImdbIdForAddonPlayer() ?: return null
+    val type = (contentType ?: parentMetaType).lowercase()
+    val season = activeSeasonNumber
+    val episode = activeEpisodeNumber
+    return if (
+        (type == "series" || type == "tv" || type == "show" || type == "shows") &&
+        season != null &&
+        episode != null
+    ) {
+        "$imdb:$season:$episode"
+    } else {
+        imdb
+    }
+}
+
+private fun PlayerScreenRuntime.resolveImdbIdForAddonPlayer(): String? {
+    val direct = listOfNotNull(activeVideoId, parentMetaId)
+        .map { it.trim() }
+        .firstNotNullOfOrNull { candidate ->
+            candidate.substringBefore(':')
+                .takeIf { it.matches(IMDB_ID_REGEX) }
+        }
+    if (direct != null) return direct
+    return listOfNotNull(playerMeta?.imdbId, metaUiState.meta?.imdbId)
+        .map { it.trim().substringBefore(':') }
+        .firstOrNull { it.matches(IMDB_ID_REGEX) }
+}
+
+private val IMDB_ID_REGEX = Regex("""tt\d+""")
 
 internal fun PlayerScreenRuntime.emitTrackingScrobbleStart() {
     if (isShortPlaceholderDuration(playbackSnapshot.durationMs)) return

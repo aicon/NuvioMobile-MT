@@ -206,6 +206,10 @@ internal expect object PlayerSettingsStorage {
     fun saveIosSaturation(value: Int)
     fun loadIosGamma(): Int?
     fun saveIosGamma(value: Int)
+    fun loadAddonPlayerEventsEnabled(): Boolean?
+    fun saveAddonPlayerEventsEnabled(enabled: Boolean)
+    fun loadAddonPlayerProgressIntervalSeconds(): Int?
+    fun saveAddonPlayerProgressIntervalSeconds(seconds: Int)
     fun exportToSyncPayload(): JsonObject
     fun replaceFromSyncPayload(payload: JsonObject)
 }

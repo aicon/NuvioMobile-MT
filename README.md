@@ -4,7 +4,7 @@
 
 ---
 
-**An independent phone client fork of [NuvioMobile](https://github.com/NuvioMedia/NuvioMobile) with its own package id, a dedicated in-app update channel, and a side-by-side install next to the official app.**
+**An independent phone client fork of [NuvioMobile](https://github.com/NuvioMedia/NuvioMobile) with native MediaTrail scrobbling, smart ExoPlayer/libmpv switching, its own package id, and in-app updates.**
 
 [![Release](https://img.shields.io/badge/release-latest-blue.svg)](https://github.com/aicon/NuvioMobile-MT/releases)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL_v3-green.svg)](LICENSE)
@@ -16,9 +16,7 @@
 
 ## Overview
 
-NuvioMobile-MT is an independent community build of NuvioMobile for phones and tablets. It keeps the upstream catalog, sources, and playback, and it installs beside the official Nuvio app. Updates come from this repository, not from upstream.
-
-The Android TV counterpart is [NuvioTV-MT](https://github.com/aicon/NuvioTV-MT). That build sends playback events to [MediaTrail-Scrobbler](https://github.com/aicon/MediaTrail-Scrobbler). This phone build does not send those events yet.
+NuvioMobile-MT is an independent community build of NuvioMobile for phones and tablets. It keeps the upstream catalog and sources, installs beside the official Nuvio app, and adds the same MediaTrail playback reporting and player-engine choice as [NuvioTV-MT](https://github.com/aicon/NuvioTV-MT).
 
 ---
 
@@ -29,7 +27,26 @@ The Android TV counterpart is [NuvioTV-MT](https://github.com/aicon/NuvioTV-MT).
 - Installs beside the official Nuvio mobile app (`com.nuvio.app`) and does not replace it.
 - **Launcher Name:** **Nuvio**, on English and Hungarian systems alike.
 
-### 2. Custom In-App Updater
+### 2. MediaTrail Playback Events
+- Dispatches playback events (`start`, `pause`, `progress`, `stop`) to installed addons that declare the `player` resource.
+- Works with **[MediaTrail-Scrobbler](https://github.com/aicon/MediaTrail-Scrobbler)** to drive the MediaTrail Now Watching banner and, after the watch threshold, the watch history.
+- Sends progress about every 30 seconds while playing, and not while paused.
+- Video stays on the phone. MediaTrail receives the playback event only.
+- The switch is on by default under playback settings.
+
+### 3. Smart Playback Engine Switching
+The default engine is Auto:
+
+| Media / Format Condition | Selected Player Engine |
+| :--- | :---: |
+| **Standard Movies & TV Shows** | **ExoPlayer** |
+| **Anime** *(Kitsu, MAL, AniList, or an anime genre)* | **libmpv** |
+| **AVI and XviD** | **libmpv**, even when the saved engine is ExoPlayer |
+| **HDR & Dolby Vision** | **ExoPlayer** |
+
+A manual engine choice for the current playback overrides this.
+
+### 4. Custom In-App Updater
 The built-in updater reads public releases from `aicon/NuvioMobile-MT`:
 - **Stable Channel:** the latest release that is not a pre-release, published from `main`.
 - **Beta Channel:** the highest version among the releases from `dev`, including pre-releases.

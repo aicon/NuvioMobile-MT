@@ -23,6 +23,8 @@ actual object PlayerSettingsStorage {
     private const val showLoadingOverlayKey = "show_loading_overlay"
     private const val showPlayerLoadingStatusKey = "show_player_loading_status"
     private const val pauseOverlayEnabledKey = "pause_overlay_enabled"
+    private const val addonPlayerEventsEnabledKey = "addon_player_events_enabled"
+    private const val addonPlayerProgressIntervalSecondsKey = "addon_player_progress_interval_seconds"
     private const val showParentalGuideKey = "show_parental_guide"
     private const val resizeModeKey = "resize_mode"
     private const val holdToSpeedEnabledKey = "hold_to_speed_enabled"
@@ -120,6 +122,8 @@ actual object PlayerSettingsStorage {
         showLoadingOverlayKey,
         showPlayerLoadingStatusKey,
         pauseOverlayEnabledKey,
+        addonPlayerEventsEnabledKey,
+        addonPlayerProgressIntervalSecondsKey,
         showParentalGuideKey,
         resizeModeKey,
         holdToSpeedEnabledKey,
@@ -274,6 +278,29 @@ actual object PlayerSettingsStorage {
 
     actual fun savePauseOverlayEnabled(enabled: Boolean) {
         NSUserDefaults.standardUserDefaults.setBool(enabled, forKey = ProfileScopedKey.of(pauseOverlayEnabledKey))
+    }
+
+    actual fun loadAddonPlayerEventsEnabled(): Boolean? {
+        val defaults = NSUserDefaults.standardUserDefaults
+        val key = ProfileScopedKey.of(addonPlayerEventsEnabledKey)
+        return if (defaults.objectForKey(key) != null) defaults.boolForKey(key) else null
+    }
+
+    actual fun saveAddonPlayerEventsEnabled(enabled: Boolean) {
+        NSUserDefaults.standardUserDefaults.setBool(enabled, forKey = ProfileScopedKey.of(addonPlayerEventsEnabledKey))
+    }
+
+    actual fun loadAddonPlayerProgressIntervalSeconds(): Int? {
+        val defaults = NSUserDefaults.standardUserDefaults
+        val key = ProfileScopedKey.of(addonPlayerProgressIntervalSecondsKey)
+        return if (defaults.objectForKey(key) != null) defaults.integerForKey(key).toInt() else null
+    }
+
+    actual fun saveAddonPlayerProgressIntervalSeconds(seconds: Int) {
+        NSUserDefaults.standardUserDefaults.setInteger(
+            seconds.toLong(),
+            forKey = ProfileScopedKey.of(addonPlayerProgressIntervalSecondsKey),
+        )
     }
 
     actual fun loadUseLegacyPlayerLayout(): Boolean? {
@@ -1229,6 +1256,8 @@ actual object PlayerSettingsStorage {
         loadShowLoadingOverlay()?.let { put(showLoadingOverlayKey, encodeSyncBoolean(it)) }
         loadShowPlayerLoadingStatus()?.let { put(showPlayerLoadingStatusKey, encodeSyncBoolean(it)) }
         loadPauseOverlayEnabled()?.let { put(pauseOverlayEnabledKey, encodeSyncBoolean(it)) }
+        loadAddonPlayerEventsEnabled()?.let { put(addonPlayerEventsEnabledKey, encodeSyncBoolean(it)) }
+        loadAddonPlayerProgressIntervalSeconds()?.let { put(addonPlayerProgressIntervalSecondsKey, encodeSyncInt(it)) }
         loadShowParentalGuide()?.let { put(showParentalGuideKey, encodeSyncBoolean(it)) }
         loadResizeMode()?.let { put(resizeModeKey, encodeSyncString(it)) }
         loadHoldToSpeedEnabled()?.let { put(holdToSpeedEnabledKey, encodeSyncBoolean(it)) }
@@ -1322,6 +1351,8 @@ actual object PlayerSettingsStorage {
         payload.decodeSyncBoolean(showLoadingOverlayKey)?.let(::saveShowLoadingOverlay)
         payload.decodeSyncBoolean(showPlayerLoadingStatusKey)?.let(::saveShowPlayerLoadingStatus)
         payload.decodeSyncBoolean(pauseOverlayEnabledKey)?.let(::savePauseOverlayEnabled)
+        payload.decodeSyncBoolean(addonPlayerEventsEnabledKey)?.let(::saveAddonPlayerEventsEnabled)
+        payload.decodeSyncInt(addonPlayerProgressIntervalSecondsKey)?.let(::saveAddonPlayerProgressIntervalSeconds)
         payload.decodeSyncBoolean(showParentalGuideKey)?.let(::saveShowParentalGuide)
         payload.decodeSyncString(resizeModeKey)?.let(::saveResizeMode)
         payload.decodeSyncBoolean(holdToSpeedEnabledKey)?.let(::saveHoldToSpeedEnabled)
