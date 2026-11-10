@@ -53,7 +53,7 @@ data class PlayerSettingsUiState(
     val subtitleStyle: SubtitleStyleState = SubtitleStyleState.DEFAULT,
     val streamReuseLastLinkEnabled: Boolean = false,
     val streamReuseLastLinkCacheHours: Int = 24,
-    val androidPlaybackEngine: AndroidPlaybackEngine = AndroidPlaybackEngine.ExoPlayer,
+    val androidPlaybackEngine: AndroidPlaybackEngine = AndroidPlaybackEngine.Auto,
     val autoSwitchPlaybackEngineOnError: Boolean = true,
     val androidLibmpvVideoOutput: AndroidLibmpvVideoOutput = AndroidLibmpvVideoOutput.GpuNext,
     val androidLibmpvHardwareDecodingEnabled: Boolean = true,
@@ -119,6 +119,8 @@ data class PlayerSettingsUiState(
     val iosContrast: Int = 0,
     val iosSaturation: Int = 0,
     val iosGamma: Int = 0,
+    val addonPlayerEventsEnabled: Boolean = true,
+    val addonPlayerProgressIntervalSeconds: Int = 30,
 )
 
 object PlayerSettingsRepository {
@@ -146,7 +148,9 @@ object PlayerSettingsRepository {
     private var subtitleStyle = SubtitleStyleState.DEFAULT
     private var streamReuseLastLinkEnabled = false
     private var streamReuseLastLinkCacheHours = 24
-    private var androidPlaybackEngine = AndroidPlaybackEngine.ExoPlayer
+    private var androidPlaybackEngine = AndroidPlaybackEngine.Auto
+    private var addonPlayerEventsEnabled = true
+    private var addonPlayerProgressIntervalSeconds = 30
     private var autoSwitchPlaybackEngineOnError = true
     private var androidLibmpvVideoOutput = AndroidLibmpvVideoOutput.GpuNext
     private var androidLibmpvHardwareDecodingEnabled = true
@@ -244,7 +248,9 @@ object PlayerSettingsRepository {
         subtitleStyle = SubtitleStyleState.DEFAULT
         streamReuseLastLinkEnabled = false
         streamReuseLastLinkCacheHours = 24
-        androidPlaybackEngine = AndroidPlaybackEngine.ExoPlayer
+        androidPlaybackEngine = AndroidPlaybackEngine.Auto
+        addonPlayerEventsEnabled = true
+        addonPlayerProgressIntervalSeconds = 30
         autoSwitchPlaybackEngineOnError = true
         androidLibmpvVideoOutput = AndroidLibmpvVideoOutput.GpuNext
         androidLibmpvHardwareDecodingEnabled = true
@@ -371,7 +377,10 @@ object PlayerSettingsRepository {
         streamReuseLastLinkCacheHours = PlayerSettingsStorage.loadStreamReuseLastLinkCacheHours() ?: 24
         androidPlaybackEngine = PlayerSettingsStorage.loadAndroidPlaybackEngine()
             ?.let { runCatching { AndroidPlaybackEngine.valueOf(it) }.getOrNull() }
-            ?: AndroidPlaybackEngine.ExoPlayer
+            ?: AndroidPlaybackEngine.Auto
+        addonPlayerEventsEnabled = PlayerSettingsStorage.loadAddonPlayerEventsEnabled() ?: true
+        addonPlayerProgressIntervalSeconds = (PlayerSettingsStorage.loadAddonPlayerProgressIntervalSeconds() ?: 30)
+            .coerceIn(5, 300)
         autoSwitchPlaybackEngineOnError = PlayerSettingsStorage.loadAutoSwitchPlaybackEngineOnError() ?: true
         androidLibmpvVideoOutput = PlayerSettingsStorage.loadAndroidLibmpvVideoOutput()
             ?.let { runCatching { AndroidLibmpvVideoOutput.valueOf(it) }.getOrNull() }
@@ -688,6 +697,23 @@ object PlayerSettingsRepository {
         androidPlaybackEngine = engine
         publish()
         PlayerSettingsStorage.saveAndroidPlaybackEngine(engine.name)
+    }
+
+    fun setAddonPlayerEventsEnabled(enabled: Boolean) {
+        ensureLoaded()
+        if (addonPlayerEventsEnabled == enabled) return
+        addonPlayerEventsEnabled = enabled
+        publish()
+        PlayerSettingsStorage.saveAddonPlayerEventsEnabled(enabled)
+    }
+
+    fun setAddonPlayerProgressIntervalSeconds(seconds: Int) {
+        ensureLoaded()
+        val clamped = seconds.coerceIn(5, 300)
+        if (addonPlayerProgressIntervalSeconds == clamped) return
+        addonPlayerProgressIntervalSeconds = clamped
+        publish()
+        PlayerSettingsStorage.saveAddonPlayerProgressIntervalSeconds(clamped)
     }
 
     fun setAutoSwitchPlaybackEngineOnError(enabled: Boolean) {
@@ -1383,6 +1409,8 @@ object PlayerSettingsRepository {
             iosContrast = iosContrast,
             iosSaturation = iosSaturation,
             iosGamma = iosGamma,
+            addonPlayerEventsEnabled = addonPlayerEventsEnabled,
+            addonPlayerProgressIntervalSeconds = addonPlayerProgressIntervalSeconds,
         )
     }
 

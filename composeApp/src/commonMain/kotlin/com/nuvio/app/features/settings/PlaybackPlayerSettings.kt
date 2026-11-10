@@ -84,6 +84,30 @@ internal fun PlaybackPlayerSettings(
                         onCheckedChange = PlayerSettingsRepository::setExternalPlayerSendSkipSegments,
                     )
                 }
+                SettingsGroupDivider(isTablet = isTablet)
+                SettingsSwitchRow(
+                    title = stringResource(Res.string.settings_addon_player_events),
+                    description = stringResource(Res.string.settings_addon_player_events_description),
+                    checked = settings.addonPlayerEventsEnabled,
+                    enabled = !settings.externalPlayerEnabled,
+                    isTablet = isTablet,
+                    onCheckedChange = PlayerSettingsRepository::setAddonPlayerEventsEnabled,
+                )
+                SettingsGroupDivider(isTablet = isTablet)
+                SettingsNavigationRow(
+                    title = stringResource(Res.string.settings_addon_player_progress_interval),
+                    description = stringResource(
+                        Res.string.settings_addon_player_progress_interval_description,
+                        settings.addonPlayerProgressIntervalSeconds,
+                    ),
+                    enabled = !settings.externalPlayerEnabled && settings.addonPlayerEventsEnabled,
+                    isTablet = isTablet,
+                    onClick = {
+                        val options = listOf(15, 30, 60, 120)
+                        val next = options.firstOrNull { it > settings.addonPlayerProgressIntervalSeconds } ?: options.first()
+                        PlayerSettingsRepository.setAddonPlayerProgressIntervalSeconds(next)
+                    },
+                )
             }
         }
 
@@ -243,9 +267,9 @@ private fun PlaybackEngineDialog(
     onDismiss: () -> Unit,
 ) {
     val engineOrder = listOf(
+        AndroidPlaybackEngine.Auto,
         AndroidPlaybackEngine.ExoPlayer,
         AndroidPlaybackEngine.Libmpv,
-        AndroidPlaybackEngine.Auto,
     )
     val descriptions = mapOf(
         AndroidPlaybackEngine.Auto to Res.string.settings_playback_engine_auto_description,

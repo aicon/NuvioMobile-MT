@@ -190,6 +190,7 @@ internal fun PlayerScreenRuntime.RenderPlayerRuntimeUi(
                 contentTitle = title,
                 genres = playerMeta?.genres.orEmpty(),
                 country = playerMeta?.country,
+                streamUrl = playerSurfaceSourceUrl,
             )
         }
         val resolvedAutoEngine = resolvedAutoEngineState.value
