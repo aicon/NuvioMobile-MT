@@ -182,6 +182,7 @@ jobs:
             echo "- **Player engine.** The default engine is Auto. Movies and ordinary TV use ExoPlayer. Anime (Kitsu, MAL, AniList, or an anime genre) uses libmpv. AVI and XviD use libmpv even when the saved engine is ExoPlayer, unless an engine was chosen for that playback. HDR and Dolby Vision stay on ExoPlayer."
             echo "- **Own update channel.** The built-in updater looks at this repository, not upstream NuvioMobile."
             echo "- **Support.** The in-app support button opens [Ko-fi](https://ko-fi.com/aiconwg)."
+            echo "- **Community lists.** The supporters and contributors lists stay hidden until this fork has its own list. The Ko-fi button stays."
             echo "- **Hungarian.** The Hungarian interface now follows the TV app. It uses the same informal voice, calls addons bővítmény, and translates the settings, subtitle, chapter, and rating screens that were still in English."
             echo
             echo "The fork does not pause or resume playback from the MediaTrail page. Playback events go out to the addon. They do not come back as remote controls."

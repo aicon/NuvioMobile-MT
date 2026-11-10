@@ -367,11 +367,13 @@ private fun SupportersContributorsBody(
     }
 
     LaunchedEffect(Unit) {
+        if (!AppFeaturePolicy.communityListsEnabled) return@LaunchedEffect
         loadContributors(force = false)
         loadSupporters(force = false)
     }
 
     LaunchedEffect(uiState.selectedTab) {
+        if (!AppFeaturePolicy.communityListsEnabled) return@LaunchedEffect
         if (uiState.selectedTab == CommunityTab.Supporters) {
             loadSupporters(force = false)
         }
@@ -396,7 +398,7 @@ private fun SupportersContributorsBody(
             onRefresh = MembershipOverviewRepository::refresh,
         )
 
-        if (AppFeaturePolicy.donationProgressEnabled) {
+        if (AppFeaturePolicy.communityListsEnabled && AppFeaturePolicy.donationProgressEnabled) {
             NuvioSurfaceCard {
                 if (donationsConfigured) {
                     DonationProgressSection(
@@ -414,29 +416,31 @@ private fun SupportersContributorsBody(
             }
         }
 
-        NuvioSurfaceCard {
-            CommunityTabRow(
-                selectedTab = uiState.selectedTab,
-                onSelectTab = { tab -> uiState = uiState.copy(selectedTab = tab) },
-            )
-        }
+        if (AppFeaturePolicy.communityListsEnabled) {
+            NuvioSurfaceCard {
+                CommunityTabRow(
+                    selectedTab = uiState.selectedTab,
+                    onSelectTab = { tab -> uiState = uiState.copy(selectedTab = tab) },
+                )
+            }
 
-        when (uiState.selectedTab) {
-            CommunityTab.Contributors -> ContributorsCard(
-                contributors = uiState.contributors,
-                isLoading = uiState.isContributorsLoading,
-                errorMessage = uiState.contributorsErrorMessage,
-                onRetry = { loadContributors(force = true) },
-                onContributorClick = { selectedContributor = it },
-            )
+            when (uiState.selectedTab) {
+                CommunityTab.Contributors -> ContributorsCard(
+                    contributors = uiState.contributors,
+                    isLoading = uiState.isContributorsLoading,
+                    errorMessage = uiState.contributorsErrorMessage,
+                    onRetry = { loadContributors(force = true) },
+                    onContributorClick = { selectedContributor = it },
+                )
 
-            CommunityTab.Supporters -> SupportersCard(
-                supporters = uiState.supporters,
-                isLoading = uiState.isSupportersLoading,
-                errorMessage = uiState.supportersErrorMessage,
-                onRetry = { loadSupporters(force = true) },
-                onSupporterClick = { selectedSupporter = it },
-            )
+                CommunityTab.Supporters -> SupportersCard(
+                    supporters = uiState.supporters,
+                    isLoading = uiState.isSupportersLoading,
+                    errorMessage = uiState.supportersErrorMessage,
+                    onRetry = { loadSupporters(force = true) },
+                    onSupporterClick = { selectedSupporter = it },
+                )
+            }
         }
     }
 
