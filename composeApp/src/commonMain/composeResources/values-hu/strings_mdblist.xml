@@ -20,12 +20,12 @@
     <string name="settings_mdblist_missing_credentials">Az MDBList csatlakozás nem érhető el ebben a verzióban.</string>
     <string name="settings_mdblist_sync_now">Szinkronizálás most</string>
     <string name="settings_mdblist_visit">MDBList meglátogatása</string>
-    <string name="settings_mdblist_unavailable">Nem sikerült szinkronizálni az MDBList-tel. Kérjük, próbáld újra.</string>
+    <string name="settings_mdblist_unavailable">Nem sikerült szinkronizálni az MDBList-tel. próbáld újra.</string>
     <string name="settings_mdblist_rate_limited">Elérted az MDBList kéréskorlátját. A szinkronizálás a korlát nullázása után folytatódik.</string>
     <string name="settings_mdblist_auth_expired">Ez a kód lejárt. Próbáld újra egy új kód lekéréséhez.</string>
     <string name="settings_mdblist_auth_denied">A csatlakozás elutasítva. Próbáld újra a fiókod csatlakoztatását.</string>
     <string name="settings_mdblist_auth_revoked">Az MDBList csatlakozásod lejárt vagy visszavonásra került. Csatlakozz újra a szinkronizálás folytatásához.</string>
-    <string name="settings_mdblist_invalid_response">Az MDBList hiányos választ adott vissza. Kérjük, próbáld újra.</string>
+    <string name="settings_mdblist_invalid_response">Az MDBList hiányos választ adott vissza. próbáld újra.</string>
     <string name="settings_mdblist_write_required">Az MDBList nem adott engedélyt a megtekintési előzmények frissítésére. Csatlakozz újra, és engedélyezd az írási hozzáférést.</string>
     <string name="library_manage_lists">Listák kezelése</string>
     <string name="library_create_list">Lista létrehozása</string>
@@ -34,7 +34,7 @@
     <string name="library_list_description">Leírás</string>
     <string name="library_list_private">Privát</string>
     <string name="library_list_public">Nyilvános</string>
-    <string name="library_list_delete">Törlöd ezt a listát?</string>
+    <string name="library_list_delete">Törlés</string>
     <string name="library_list_delete_message">Ez eltávolítja a(z) „%1$s” listát és annak minden elemét az MDBList-ről.</string>
     <string name="library_list_delete_action">Törlés</string>
     <string name="library_list_save_failed">Nem sikerült elmenteni a listát</string>
@@ -45,7 +45,7 @@
     <string name="settings_mdblist_syncing">Megtekintési előzmények és lejátszási állapot szinkronizálása…</string>
     <string name="settings_mdblist_last_synced">Utoljára szinkronizálva: %1$s</string>
     <string name="library_create_list_action">Létrehozás</string>
-    <string name="library_list_privacy">Adatvédelem</string>
+    <string name="library_list_privacy">Láthatóság</string>
     <string name="library_list_delete_failed">Nem sikerült törölni a listát</string>
     <string name="library_list_link">Hivatkozással rendelkező bárki</string>
     <string name="library_list_friends">Ismerősök</string>
