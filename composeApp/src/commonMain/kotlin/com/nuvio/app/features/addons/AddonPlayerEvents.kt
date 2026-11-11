@@ -36,6 +36,8 @@ internal object AddonPlayerEventDispatcher {
                     action = normalizedAction,
                     currentTimeMs = currentTimeMs,
                     durationMs = durationMs,
+                    deviceId = PlayerDeviceIdentity.deviceId(),
+                    deviceName = PlayerDeviceIdentity.deviceName(),
                 ) ?: return@mapNotNull null
                 url
             }
@@ -79,6 +81,8 @@ internal fun buildPlayerEventUrl(
     action: String,
     currentTimeMs: Long?,
     durationMs: Long?,
+    deviceId: String? = null,
+    deviceName: String? = null,
 ): String? {
     val base = addonTransportBaseUrl(manifestUrl).trim().trimEnd('/')
     if (base.isEmpty() || videoId.isBlank()) return null
@@ -89,6 +93,14 @@ internal fun buildPlayerEventUrl(
         append("action=").append(action.encodeAddonPathSegment())
         if (currentTimeMs != null) append("&currentTime=").append(currentTimeMs)
         if (durationMs != null) append("&duration=").append(durationMs)
+        val resolvedDeviceId = deviceId?.trim().orEmpty()
+        if (resolvedDeviceId.isNotEmpty()) {
+            append("&deviceId=").append(resolvedDeviceId.encodeAddonPathSegment())
+        }
+        val resolvedDeviceName = deviceName?.trim().orEmpty()
+        if (resolvedDeviceName.isNotEmpty()) {
+            append("&deviceName=").append(resolvedDeviceName.encodeAddonPathSegment())
+        }
     }
     return "$base/player/$type/${videoId.encodeAddonPathSegment()}/$extras.json$query"
 }
