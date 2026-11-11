@@ -12,8 +12,6 @@
 [![Upstream](https://img.shields.io/badge/upstream-NuvioMobile-purple.svg)](https://github.com/NuvioMedia/NuvioMobile)
 [![Támogatás Ko-fi-n](https://img.shields.io/badge/Ko--fi-Támogatás-ff5e5b?logo=ko-fi)](https://ko-fi.com/aiconwg)
 
-<a href="https://github.com/aicon/NuvioMobile-MT/releases/latest"><img src="badges/get-it-on-github.png" alt="Get it on GitHub" height="80"></a>
-
 ---
 
 ## Áttekintés
@@ -65,6 +63,8 @@ A beépített frissítő az `aicon/NuvioMobile-MT` nyilvános kiadásait nézi:
 ## 📥 Letöltés és telepítés
 
 1. Nyisd meg a **[legfrissebb kiadást](https://github.com/aicon/NuvioMobile-MT/releases/latest)**, és töltsd le a telefonhoz illő APK-t.
+
+   <a href="https://github.com/aicon/NuvioMobile-MT/releases/latest"><img src="badges/get-it-on-github.png" alt="Get it on GitHub" height="80"></a>
 2. Töltsd le a telefon processzorához illő APK-t. A mostani telefonoknál ez általában `arm64-v8a`.
 3. Telepítsd úgy, ahogy a más forrásból származó alkalmazásokat szoktad.
 
