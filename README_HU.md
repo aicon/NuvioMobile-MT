@@ -4,7 +4,7 @@
 
 ---
 
-**Önálló telefonos kliens, a [NuvioMobile](https://github.com/NuvioMedia/NuvioMobile) forkja beépített MediaTrail scrobbler-támogatással, intelligens ExoPlayer/libmpv választással, saját csomagnévvel és saját frissítővel.**
+**Önálló telefonos kliens, a [NuvioMobile](https://github.com/NuvioMedia/NuvioMobile) forkja MediaTrail „Most nézem” jelentéssel, intelligens ExoPlayer/libmpv választással, saját csomagnévvel és saját frissítővel.**
 
 [![Verzió](https://img.shields.io/badge/verzió-legfrissebb-blue.svg)](https://github.com/aicon/NuvioMobile-MT/releases)
 [![Licenc: GPL v3](https://img.shields.io/badge/Licenc-GPL_v3-green.svg)](LICENSE)
@@ -29,7 +29,9 @@ A NuvioMobile-MT a NuvioMobile független, közösségi kiadása telefonra és t
 
 ### 2. MediaTrail lejátszás-szinkronizáció
 - Lejátszás közben továbbítja az eseményeket (`start`, `pause`, `progress`, `stop`) a `player` erőforrást hirdető addonoknak.
-- Együtt működik a **[MediaTrail-Scrobblerrel](https://github.com/aicon/MediaTrail-Scrobbler)**: kezeli a **„Most nézem”** sávot, a megtekintési küszöb után pedig az előzményt.
+- A **[MediaTrail](https://github.com/aicon/MediaTrail)** addon címét (`…/nuvio/manifest.json`) add hozzá a Beállítások → Bővítmények alatt. Külön scrobbler konténer nem kell.
+- Minden telepítés stabil `deviceId`-t és automatikus nevet küld (pl. `telefon · Pixel 8`), így a telefon és a tévé sávjai a MediaTrail kezdőlapon külön maradnak.
+- Seek után is megy `progress`, hogy a sáv ne maradjon le. A befejezett nézés a MediaTrailben **90%-nál** mentődik.
 - Aktív lejátszás alatt kb. 30 másodpercenként küld állapotot, szünet alatt nem.
 - A kép a telefonon marad. A MediaTrail csak a lejátszási eseményt kapja.
 - A kapcsoló a lejátszási beállításokban van, alapból bekapcsolva.
