@@ -444,6 +444,9 @@ internal fun PlayerScreenRuntime.scheduleProgressSyncAfterSeek() {
             session = playbackSession,
             snapshot = playbackSnapshot,
         )
+        // MediaTrail / player addons only hear the periodic ticker unless seek
+        // also emits progress; without this the strip lags until pause/play.
+        emitAddonPlayerEvent("progress")
 
         val progressPercent = currentPlaybackProgressPercent()
         if (
