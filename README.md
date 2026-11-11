@@ -12,6 +12,8 @@
 [![Upstream](https://img.shields.io/badge/upstream-NuvioMobile-purple.svg)](https://github.com/NuvioMedia/NuvioMobile)
 [![Support on Ko-fi](https://img.shields.io/badge/Ko--fi-Support-ff5e5b?logo=ko-fi)](https://ko-fi.com/aiconwg)
 
+<a href="https://github.com/aicon/NuvioMobile-MT/releases/latest"><img src="badges/get-it-on-github.png" alt="Get it on GitHub" height="80"></a>
+
 ---
 
 ## Overview
@@ -62,7 +64,7 @@ The built-in updater reads public releases from `aicon/NuvioMobile-MT`:
 
 ## 📥 Download & Installation
 
-1. Open the **[Releases](https://github.com/aicon/NuvioMobile-MT/releases)** page.
+1. Open the **[latest release](https://github.com/aicon/NuvioMobile-MT/releases/latest)** and download the APK for the phone.
 2. Download the APK for the phone's CPU. Current phones are usually `arm64-v8a`.
 3. Install it with the method you already use for sideloaded apps.
 
