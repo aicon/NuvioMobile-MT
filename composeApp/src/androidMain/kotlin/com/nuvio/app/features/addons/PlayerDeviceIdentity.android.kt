@@ -1,6 +1,7 @@
 package com.nuvio.app.features.addons
 
 import android.content.Context
+import android.os.Build
 import java.util.UUID
 
 internal actual object PlayerDeviceIdentity {
@@ -25,5 +26,8 @@ internal actual object PlayerDeviceIdentity {
         return created
     }
 
-    actual fun deviceName(): String = "telefon"
+    actual fun deviceName(): String {
+        val model = Build.MODEL.trim()
+        return if (model.isEmpty()) "telefon" else "telefon · $model"
+    }
 }

@@ -15,5 +15,8 @@ internal actual object PlayerDeviceIdentity {
         return created
     }
 
-    actual fun deviceName(): String = "telefon"
+    actual fun deviceName(): String {
+        val model = platform.UIKit.UIDevice.currentDevice.model.trim()
+        return if (model.isEmpty()) "telefon" else "telefon · $model"
+    }
 }
