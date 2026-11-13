@@ -184,7 +184,7 @@ jobs:
             fi
             echo "# ${RELEASE_TITLE}"
             echo
-            echo "Signed **Nuvio-MT** ${channel} build \`${RELEASE_VERSION}\` (versionCode \`${RELEASE_CODE}\`)."
+            echo "Signed **NuvioMobile-MT** ${channel} build \`${RELEASE_VERSION}\` (versionCode \`${RELEASE_CODE}\`)."
             echo "This is a personal product fork of NuvioMobile. It is not an official Nuvio build."
             echo
             echo "## Install"

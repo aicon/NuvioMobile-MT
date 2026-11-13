@@ -25,7 +25,7 @@ This fork exists so the phone client works as tightly as possible with **[MediaT
 ### 1. Side-by-Side Coexistence
 - **Package Identifier:** `com.aicon.nuviomobile`.
 - Installs beside the official Nuvio mobile app (`com.nuvio.app`) and does not replace it.
-- **Launcher Name:** **Nuvio-MT**, on English and Hungarian systems alike.
+- **Launcher name:** **Nuvio-MT**
 
 ### 2. MediaTrail Playback Events
 - Dispatches playback events (`start`, `pause`, `progress`, `stop`) to installed addons that declare the `player` resource.
