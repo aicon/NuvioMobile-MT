@@ -973,9 +973,12 @@ fun HomeScreen(
     )
 
     BoxWithConstraints(modifier = modifier.fillMaxSize()) {
-        val homeSectionPadding = homeSectionHorizontalPaddingForWidth(maxWidth.value)
+        // Capture before PullToRefreshBox: both scopes expose maxHeight/maxWidth.
+        val viewportMaxWidth = maxWidth
+        val viewportMaxHeight = maxHeight
+        val homeSectionPadding = homeSectionHorizontalPaddingForWidth(viewportMaxWidth.value)
         val posterCardStyle = rememberPosterCardStyleUiState()
-        val continueWatchingLayout = rememberContinueWatchingLayout(maxWidth.value, posterCardStyle)
+        val continueWatchingLayout = rememberContinueWatchingLayout(viewportMaxWidth.value, posterCardStyle)
         val nativeBottomNavigationOverlayHeight =
             if (LocalNuvioBottomNavigationOverlayPadding.current > 0.dp) {
                 nuvioSafeBottomPadding()
@@ -983,7 +986,7 @@ fun HomeScreen(
                 0.dp
             }
         val mobileHeroBelowSectionHeightHint = remember(
-            maxWidth.value,
+            viewportMaxWidth.value,
             continueWatchingPreferences.isVisible,
             continueWatchingPreferences.style,
             hasContinueWatchingRows,
@@ -992,7 +995,7 @@ fun HomeScreen(
             nativeBottomNavigationOverlayHeight,
         ) {
             if (
-                maxWidth.value < 600f &&
+                viewportMaxWidth.value < 600f &&
                 continueWatchingPreferences.isVisible &&
                 hasContinueWatchingRows
             ) {
@@ -1043,14 +1046,14 @@ fun HomeScreen(
                         when {
                             isLoading -> HomeSkeletonHero(
                                 modifier = Modifier,
-                                viewportHeight = maxHeight,
+                                viewportHeight = viewportMaxHeight,
                                 mobileBelowSectionHeightHint = mobileHeroBelowSectionHeightHint,
                             )
 
                             homeUiState.heroItems.isNotEmpty() -> HomeHeroSection(
                                 items = homeHeroState.items,
                                 modifier = Modifier,
-                                viewportHeight = maxHeight,
+                                viewportHeight = viewportMaxHeight,
                                 mobileBelowSectionHeightHint = mobileHeroBelowSectionHeightHint,
                                 listState = homeListState,
                                 stretchPx = { heroStretchState.stretchPx },
@@ -1061,7 +1064,7 @@ fun HomeScreen(
 
                             else -> HomeHeroReservedSpace(
                                 modifier = Modifier,
-                                viewportHeight = maxHeight,
+                                viewportHeight = viewportMaxHeight,
                                 mobileBelowSectionHeightHint = mobileHeroBelowSectionHeightHint,
                             )
                         }
