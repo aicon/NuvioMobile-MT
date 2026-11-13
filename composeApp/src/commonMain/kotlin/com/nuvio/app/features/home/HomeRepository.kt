@@ -79,14 +79,27 @@ object HomeRepository {
         }
 
         activeJob?.cancel()
+        if (force) {
+            // Drop in-memory rows so force refresh cannot keep painting a previous snapshot.
+            cachedSections = emptyMap()
+            cachedCollectionHeroItems = emptyList()
+        }
         _uiState.update { it.copy(isLoading = true, errorMessage = null) }
+        if (force) {
+            publishCurrentState(
+                isLoading = true,
+                requestKey = requestKey,
+            )
+        }
         activeJob = scope.launch {
             val prioritizedRequests = prioritizeDefinitions(
                 definitions = requests,
                 snapshot = HomeCatalogSettingsRepository.snapshot(),
             )
             val loadedSections = linkedMapOf<String, HomeCatalogSection>().apply {
-                putAll(cachedSections)
+                if (!force) {
+                    putAll(cachedSections)
+                }
             }
             var firstErrorMessage: String? = null
             var batchIndex = 0

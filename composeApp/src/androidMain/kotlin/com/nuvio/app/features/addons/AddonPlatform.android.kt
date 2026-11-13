@@ -16,6 +16,7 @@ import nuvio.composeapp.generated.resources.network_empty_response_body
 import nuvio.composeapp.generated.resources.network_request_failed_http
 import org.jetbrains.compose.resources.getString
 import okhttp3.Cache
+import okhttp3.CacheControl
 import okhttp3.ResponseBody
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.OkHttpClient
@@ -187,6 +188,17 @@ private fun readResponseBody(body: ResponseBody?): String {
     }
 }
 
+private fun Map<String, String>.requestsForceNetwork(): Boolean =
+    entries.any { (key, value) ->
+        val header = key.trim()
+        val directive = value.lowercase()
+        (
+            header.equals("Cache-Control", ignoreCase = true) &&
+                (directive.contains("no-cache") || directive.contains("no-store") || directive.contains("max-age=0"))
+            ) ||
+            (header.equals("Pragma", ignoreCase = true) && directive.contains("no-cache"))
+    }
+
 private suspend fun executeTextRequest(
     method: String,
     url: String,
@@ -198,6 +210,10 @@ private suspend fun executeTextRequest(
     val builder = Request.Builder().url(url)
     sanitizedHeaders.forEach { (key, value) ->
         builder.header(key, value)
+    }
+    if (sanitizedHeaders.requestsForceNetwork()) {
+        // Header alone can still revalidate into a cached 304 body; FORCE_NETWORK skips the disk cache.
+        builder.cacheControl(CacheControl.FORCE_NETWORK)
     }
 
     val request = if (requestAllowsBody(normalizedMethod)) {

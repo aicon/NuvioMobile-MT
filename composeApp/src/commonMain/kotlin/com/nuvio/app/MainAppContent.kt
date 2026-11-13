@@ -400,11 +400,22 @@ internal fun MainAppContent(
         HomeRepository.refresh(enabledAddons)
     }
 
+    fun forceRefreshHomeCatalogs() {
+        val enabledAddons = addonsUiState.addons.enabledAddons()
+        if (enabledAddons.isWaitingForFirstEnabledManifest()) return
+        NetworkStatusRepository.requestRefresh(force = true)
+        HomeRepository.refresh(enabledAddons, force = true)
+    }
+
     fun activateTab(tab: AppScreenTab) {
+        val leavingOtherTab = selectedTab != tab
         if (useNativeNavigation && onActivate != null) {
             onActivate(tab)
         } else {
             selectedTab = tab
+        }
+        if (tab == AppScreenTab.Home && leavingOtherTab) {
+            forceRefreshHomeCatalogs()
         }
     }
 
@@ -415,7 +426,10 @@ internal fun MainAppContent(
         }
 
         when (tab) {
-            AppScreenTab.Home -> homeScrollToTopRequests.tryEmit(Unit)
+            AppScreenTab.Home -> {
+                homeScrollToTopRequests.tryEmit(Unit)
+                forceRefreshHomeCatalogs()
+            }
             AppScreenTab.Search -> {
                 searchFocusRequestCount++
                 searchScrollToTopRequests.tryEmit(Unit)
