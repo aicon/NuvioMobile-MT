@@ -1174,7 +1174,7 @@
     <string name="settings_playback_engine">Playback Engine</string>
     <string name="settings_playback_engine_auto_description">ExoPlayer for movies and TV shows. MPV for anime and AVI.</string>
     <string name="settings_addon_player_events">Addon player events</string>
-    <string name="settings_addon_player_events_description">Send start, pause, stop, and progress to installed addons that declare the player resource, such as the MediaTrail scrobbler.</string>
+    <string name="settings_addon_player_events_description">Send start, pause, stop, and progress to installed addons that declare the player resource, such as the MediaTrail addon for multi-device Now Watching.</string>
     <string name="settings_addon_player_progress_interval">Progress update interval</string>
     <string name="settings_addon_player_progress_interval_description">Every %1$d seconds while playing. No updates while paused.</string>
     <string name="settings_playback_engine_exoplayer_description">Use ExoPlayer and Android Media3 decoders.</string>
@@ -1776,10 +1776,11 @@
     <string name="addon_already_installed">That addon is already installed.</string>
     <string name="addon_invalid_url">Enter a valid addon URL</string>
     <string name="addon_load_manifest_failed">Unable to load manifest</string>
-    <string name="app_brand_name">Nuvio</string>
+    <string name="app_brand_name">Nuvio-MT</string>
     <string name="auth_account_deletion_failed">Account deletion failed</string>
     <string name="auth_sign_in_failed">Sign-in failed</string>
     <string name="auth_sign_out_failed">Sign-out failed</string>
+    <string name="auth_notice_signed_out">You have been signed out of Nuvio. Please sign in again.</string>
     <string name="auth_sign_up_failed">Sign-up failed</string>
     <string name="catalog_load_failed">Unable to load catalog items.</string>
     <string name="continue_watching_up_next">Next Up</string>

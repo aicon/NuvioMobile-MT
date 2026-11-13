@@ -4,7 +4,7 @@
 
 ---
 
-**An independent phone client fork of [NuvioMobile](https://github.com/NuvioMedia/NuvioMobile) with native MediaTrail scrobbling, smart ExoPlayer/libmpv switching, its own package id, and in-app updates.**
+**An independent phone client fork of [NuvioMobile](https://github.com/NuvioMedia/NuvioMobile) with MediaTrail Now Watching reporting, smart ExoPlayer/libmpv switching, its own package id, and in-app updates.**
 
 [![Release](https://img.shields.io/badge/release-latest-blue.svg)](https://github.com/aicon/NuvioMobile-MT/releases)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL_v3-green.svg)](LICENSE)
@@ -29,7 +29,9 @@ NuvioMobile-MT is an independent community build of NuvioMobile for phones and t
 
 ### 2. MediaTrail Playback Events
 - Dispatches playback events (`start`, `pause`, `progress`, `stop`) to installed addons that declare the `player` resource.
-- Works with **[MediaTrail-Scrobbler](https://github.com/aicon/MediaTrail-Scrobbler)** to drive the MediaTrail Now Watching banner and, after the watch threshold, the watch history.
+- Install the **[MediaTrail](https://github.com/aicon/MediaTrail)** addon address (`…/nuvio/manifest.json`) under Settings → Addons. No separate scrobbler container.
+- Every install sends a stable `deviceId` plus an automatic label such as `telefon · Pixel 8`, so phone and TV strips stay separate on the MediaTrail home page.
+- Seek also emits `progress` so the strip stays in sync. Finished watches are saved in MediaTrail at **90%**.
 - Sends progress about every 30 seconds while playing, and not while paused.
 - Video stays on the phone. MediaTrail receives the playback event only.
 - The switch is on by default under playback settings.

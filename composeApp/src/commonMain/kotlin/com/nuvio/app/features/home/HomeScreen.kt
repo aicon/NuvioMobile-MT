@@ -10,6 +10,8 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.material3.pulltorefresh.PullToRefreshBox
+import androidx.compose.material3.pulltorefresh.rememberPullToRefreshState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -17,6 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.snapshotFlow
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.unit.Dp
@@ -150,6 +153,29 @@ fun HomeScreen(
     val homeListState = rememberLazyListState()
     val continueWatchingListState = rememberLazyListState()
     val upcomingListState = rememberLazyListState()
+    var homePullRefreshing by remember { mutableStateOf(false) }
+    var homePullSawLoading by remember { mutableStateOf(false) }
+    val homePullRefreshState = rememberPullToRefreshState()
+    LaunchedEffect(homePullRefreshing, homeUiState.isLoading) {
+        if (!homePullRefreshing) {
+            homePullSawLoading = false
+            return@LaunchedEffect
+        }
+        when {
+            homeUiState.isLoading -> homePullSawLoading = true
+            homePullSawLoading -> {
+                homePullRefreshing = false
+                homePullSawLoading = false
+            }
+            else -> {
+                // Empty-catalog / no-op refresh never flips isLoading; don't spin forever.
+                delay(750)
+                if (homePullRefreshing && !homeUiState.isLoading) {
+                    homePullRefreshing = false
+                }
+            }
+        }
+    }
     ScreenActivityEffect(homeListState, continueWatchingListState, upcomingListState) { active ->
         if (!active) {
             homeListState.stopScroll(MutatePriority.PreventUserInput)
@@ -947,9 +973,12 @@ fun HomeScreen(
     )
 
     BoxWithConstraints(modifier = modifier.fillMaxSize()) {
-        val homeSectionPadding = homeSectionHorizontalPaddingForWidth(maxWidth.value)
+        // Capture before PullToRefreshBox: both scopes expose maxHeight/maxWidth.
+        val viewportMaxWidth = maxWidth
+        val viewportMaxHeight = maxHeight
+        val homeSectionPadding = homeSectionHorizontalPaddingForWidth(viewportMaxWidth.value)
         val posterCardStyle = rememberPosterCardStyleUiState()
-        val continueWatchingLayout = rememberContinueWatchingLayout(maxWidth.value, posterCardStyle)
+        val continueWatchingLayout = rememberContinueWatchingLayout(viewportMaxWidth.value, posterCardStyle)
         val nativeBottomNavigationOverlayHeight =
             if (LocalNuvioBottomNavigationOverlayPadding.current > 0.dp) {
                 nuvioSafeBottomPadding()
@@ -957,7 +986,7 @@ fun HomeScreen(
                 0.dp
             }
         val mobileHeroBelowSectionHeightHint = remember(
-            maxWidth.value,
+            viewportMaxWidth.value,
             continueWatchingPreferences.isVisible,
             continueWatchingPreferences.style,
             hasContinueWatchingRows,
@@ -966,7 +995,7 @@ fun HomeScreen(
             nativeBottomNavigationOverlayHeight,
         ) {
             if (
-                maxWidth.value < 600f &&
+                viewportMaxWidth.value < 600f &&
                 continueWatchingPreferences.isVisible &&
                 hasContinueWatchingRows
             ) {
@@ -981,12 +1010,25 @@ fun HomeScreen(
         }
 
         val heroStretchState = rememberHeroStretchState(homeListState)
-        val heroStretchModifier = if (showHeroSlot) {
+        // Disable hero overscroll stretch while pull-to-refresh is active so the
+        // two nested-scroll consumers do not fight for the same downward fling.
+        val heroStretchModifier = if (showHeroSlot && !homePullRefreshing) {
             Modifier.nestedScroll(heroStretchState.nestedScrollConnection)
         } else {
             Modifier
         }
 
+        PullToRefreshBox(
+            isRefreshing = homePullRefreshing,
+            onRefresh = {
+                homePullRefreshing = true
+                NetworkStatusRepository.requestRefresh(force = true)
+                HomeRepository.refresh(addonsUiState.addons.enabledAddons(), force = true)
+            },
+            modifier = Modifier.fillMaxSize(),
+            state = homePullRefreshState,
+            contentAlignment = Alignment.TopStart,
+        ) {
         NuvioScreen(
             modifier = Modifier.fillMaxSize().then(heroStretchModifier),
             horizontalPadding = 0.dp,
@@ -1004,14 +1046,14 @@ fun HomeScreen(
                         when {
                             isLoading -> HomeSkeletonHero(
                                 modifier = Modifier,
-                                viewportHeight = maxHeight,
+                                viewportHeight = viewportMaxHeight,
                                 mobileBelowSectionHeightHint = mobileHeroBelowSectionHeightHint,
                             )
 
                             homeUiState.heroItems.isNotEmpty() -> HomeHeroSection(
                                 items = homeHeroState.items,
                                 modifier = Modifier,
-                                viewportHeight = maxHeight,
+                                viewportHeight = viewportMaxHeight,
                                 mobileBelowSectionHeightHint = mobileHeroBelowSectionHeightHint,
                                 listState = homeListState,
                                 stretchPx = { heroStretchState.stretchPx },
@@ -1022,7 +1064,7 @@ fun HomeScreen(
 
                             else -> HomeHeroReservedSpace(
                                 modifier = Modifier,
-                                viewportHeight = maxHeight,
+                                viewportHeight = viewportMaxHeight,
                                 mobileBelowSectionHeightHint = mobileHeroBelowSectionHeightHint,
                             )
                         }
@@ -1202,6 +1244,7 @@ fun HomeScreen(
                     }
                 }
             }
+        }
         }
     }
 }

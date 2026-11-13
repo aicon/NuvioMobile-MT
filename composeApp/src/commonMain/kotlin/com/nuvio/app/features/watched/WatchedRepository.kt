@@ -4,6 +4,7 @@ import co.touchlab.kermit.Logger
 import com.nuvio.app.core.auth.AuthRepository
 import com.nuvio.app.core.auth.AuthState
 import com.nuvio.app.core.tracking.ensureTrackingProvidersRegistered
+import com.nuvio.app.features.addons.MediaTrailWatchedSync
 import com.nuvio.app.features.details.MetaDetails
 import com.nuvio.app.features.details.MetaVideo
 import com.nuvio.app.features.profiles.ProfileRepository
@@ -1051,7 +1052,11 @@ object WatchedRepository {
     ) {
         val profileId = currentProfileId
         val operationGeneration = profileGeneration
-        if (trackerHistorySync == WatchedTrackerHistorySync.Mirror) ServerWatched.mirror(items, played = true)
+        if (trackerHistorySync == WatchedTrackerHistorySync.Mirror) {
+            ServerWatched.mirror(items, played = true)
+            // Best-effort MediaTrail library sync; never blocks local mark.
+            MediaTrailWatchedSync.pushMarks(items, played = true)
+        }
         accountScopeSnapshot().launch {
             runCatching {
                 if (items.isEmpty()) return@runCatching
@@ -1080,6 +1085,7 @@ object WatchedRepository {
     ) {
         val profileId = currentProfileId
         ServerWatched.mirror(items, played = false)
+        MediaTrailWatchedSync.pushMarks(items, played = false)
         accountScopeSnapshot().launch {
             runCatching {
                 if (items.isEmpty()) return@runCatching

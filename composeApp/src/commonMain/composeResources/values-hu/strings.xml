@@ -1170,7 +1170,7 @@
     <string name="addon_already_installed">Ez a bővítmény már telepítve van.</string>
     <string name="addon_invalid_url">Adj meg egy érvényes bővítmény URL-t</string>
     <string name="addon_load_manifest_failed">Nem sikerült betölteni a bővítmény leíróját</string>
-    <string name="app_brand_name">Nuvio</string>
+    <string name="app_brand_name">Nuvio-MT</string>
     <string name="auth_account_deletion_failed">A fiók törlése sikertelen</string>
     <string name="auth_sign_in_failed">Bejelentkezés sikertelen</string>
     <string name="auth_sign_out_failed">Kijelentkezés sikertelen</string>
@@ -1481,7 +1481,7 @@
     <string name="settings_playback_engine">Lejátszómotor</string>
     <string name="settings_playback_engine_auto_description">Filmekhez és sorozatokhoz ExoPlayer, animéhez és AVI-hoz MPV.</string>
     <string name="settings_addon_player_events">Bővítmények lejátszóeseményei</string>
-    <string name="settings_addon_player_events_description">Indulást, szünetet, leállást és folyamatot küld azoknak a telepített bővítményeknek, amelyek ezt fogadják, például a MediaTrail scrobblernek.</string>
+    <string name="settings_addon_player_events_description">Indulást, szünetet, leállást és folyamatot küld azoknak a telepített bővítményeknek, amelyek ezt fogadják, például a MediaTrail addonnak a több eszközös „Most nézem” sávhoz.</string>
     <string name="settings_addon_player_progress_interval">Haladás frissítési időköz</string>
     <string name="settings_addon_player_progress_interval_description">Lejátszás közben %1$d másodpercenként. Szünet alatt nincs frissítés.</string>
     <string name="settings_playback_engine_exoplayer_description">Az ExoPlayer és az Android Media3 dekóderek használata.</string>
