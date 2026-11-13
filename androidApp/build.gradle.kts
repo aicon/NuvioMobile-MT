@@ -115,9 +115,9 @@ android {
         abi {
             isEnable = buildsReleaseApks
             reset()
-            // Nuvio-MT ships arm64-v8a only (current 64-bit phones).
-            include("arm64-v8a")
-            isUniversalApk = false
+            // Product release ships every ABI plus a universal APK (same set as NuvioTV-MT).
+            include("armeabi-v7a", "arm64-v8a", "x86", "x86_64")
+            isUniversalApk = true
         }
     }
 

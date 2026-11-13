@@ -191,7 +191,11 @@ jobs:
             echo
             echo "- Package: \`com.aicon.nuviomobile\` (unchanged — upgrades replace the previous fork install)"
             echo "- Launcher name: **Nuvio-MT**"
-            echo "- APK: \`NuvioMobile-MT-${RELEASE_VERSION}-full-arm64-v8a-release.apk\` (\`arm64-v8a\` only). No universal / 32-bit / emulator splits."
+            echo "- APK names: \`NuvioMobile-MT-${RELEASE_VERSION}-full-<abi>-release.apk\` (plus universal)."
+            echo "- Pick the APK that matches the device CPU. A universal APK is included for the other cases."
+            echo "- \`armeabi-v7a\` for 32-bit phones"
+            echo "- \`arm64-v8a\` for current 64-bit phones"
+            echo "- \`x86\` and \`x86_64\` for emulators"
             echo "- In-app updates use the Stable channel only (\`releases/latest\` on \`aicon/NuvioMobile-MT\`)."
             echo
             echo "## What this fork adds"
