@@ -4,7 +4,7 @@
 
 ---
 
-**Önálló telefonos kliens, a [NuvioMobile](https://github.com/NuvioMedia/NuvioMobile) forkja MediaTrail „Most nézem” jelentéssel, intelligens ExoPlayer/libmpv választással, saját csomagnévvel és saját frissítővel.**
+**A [NuvioMobile](https://github.com/NuvioMedia/NuvioMobile) forkja a [MediaTrail](https://github.com/aicon/MediaTrail) lehető legszorosabb együttműködésére — „Most nézem”, könyvtári jelölés, watchlist szinkron —, plusz néhány kisebb lejátszó- és UX-javítás.**
 
 [![Verzió](https://img.shields.io/badge/verzió-legfrissebb-blue.svg)](https://github.com/aicon/NuvioMobile-MT/releases)
 [![Licenc: GPL v3](https://img.shields.io/badge/Licenc-GPL_v3-green.svg)](LICENSE)
@@ -16,14 +16,14 @@
 
 ## Áttekintés
 
-A NuvioMobile-MT a NuvioMobile független, közösségi kiadása telefonra és táblagépre. Megtartja az eredeti katalógust és forrásokat, a hivatalos Nuvio mellé települ, és ugyanazt a MediaTrail-jelentést és lejátszómotor-választást adja, mint a [NuvioTV-MT](https://github.com/aicon/NuvioTV-MT).
+Ez a fork azért készült, hogy a telefonos kliens a lehető legszorosabban működjön együtt a **[MediaTrail](https://github.com/aicon/MediaTrail)**-lel: élő „Most nézem”, opcionális könyvtári megjelölés-szinkron, és MediaTrail-listák a főképernyő polcain. Megtartja az upstream katalógust és forrásokat, a hivatalos Nuvio (`com.nuvio.app`) mellé települ, és a [NuvioTV-MT](https://github.com/aicon/NuvioTV-MT)-vel ugyanazt a MediaTrail-történetet adja a tévén. Kisebb pluszok: Auto ExoPlayer/libmpv választás és saját frissítő ehhez a tárolóhoz.
 
 ---
 
 ## ✨ Főbb funkciók és eltérések
 
 ### 1. Párhuzamos telepíthetőség
-- **Csomagnév:** `com.aicon.nuviomobile` (debug változat: `com.aicon.nuviomobile.debug`).
+- **Csomagnév:** `com.aicon.nuviomobile`.
 - A hivatalos mobil Nuvio (`com.nuvio.app`) mellé települ, nem írja felül azt.
 - **Indítóikon neve:** **Nuvio**, angol és magyar rendszeren egyaránt.
 

@@ -4,7 +4,7 @@
 
 ---
 
-**An independent phone client fork of [NuvioMobile](https://github.com/NuvioMedia/NuvioMobile) with MediaTrail Now Watching reporting, smart ExoPlayer/libmpv switching, its own package id, and in-app updates.**
+**A [NuvioMobile](https://github.com/NuvioMedia/NuvioMobile) fork built for the deepest possible cooperation with [MediaTrail](https://github.com/aicon/MediaTrail) — Now Watching, library marks, watchlist sync — plus a few smaller player and UX fixes.**
 
 [![Release](https://img.shields.io/badge/release-latest-blue.svg)](https://github.com/aicon/NuvioMobile-MT/releases)
 [![License: GPL v3](https://img.shields.io/badge/License-GPL_v3-green.svg)](LICENSE)
@@ -16,14 +16,14 @@
 
 ## Overview
 
-NuvioMobile-MT is an independent community build of NuvioMobile for phones and tablets. It keeps the upstream catalog and sources, installs beside the official Nuvio app, and adds the same MediaTrail playback reporting and player-engine choice as [NuvioTV-MT](https://github.com/aicon/NuvioTV-MT).
+This fork exists so the phone client works as tightly as possible with **[MediaTrail](https://github.com/aicon/MediaTrail)**: live Now Watching, optional library mark sync, and home catalog shelves from MediaTrail lists. It keeps the upstream catalog and sources, installs beside official Nuvio (`com.nuvio.app`), and pairs with [NuvioTV-MT](https://github.com/aicon/NuvioTV-MT) for the same MediaTrail story on TV. Smaller extras include Auto ExoPlayer/libmpv routing and an in-app updater for this repository.
 
 ---
 
 ## ✨ Key Additions & Differences
 
 ### 1. Side-by-Side Coexistence
-- **Package Identifier:** `com.aicon.nuviomobile` (debug: `com.aicon.nuviomobile.debug`).
+- **Package Identifier:** `com.aicon.nuviomobile`.
 - Installs beside the official Nuvio mobile app (`com.nuvio.app`) and does not replace it.
 - **Launcher Name:** **Nuvio**, on English and Hungarian systems alike.
 
