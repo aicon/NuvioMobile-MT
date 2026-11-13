@@ -50,15 +50,13 @@ Az adott lejátszásra kézzel választott motor ezt felülírja.
 
 ### 4. Saját alkalmazáson belüli frissítő
 A beépített frissítő az `aicon/NuvioMobile-MT` nyilvános kiadásait nézi:
-- **Stabil csatorna:** a legutóbbi, nem előzetes kiadás, a `main` ágról.
-- **Béta csatorna:** a `dev` ág kiadásai közül a legmagasabb verzió, az előzeteseket is beleértve.
+- A legutóbbi stabil kiadást használja (`releases/latest` a `main` ágról).
 - A telefon processzorához illő APK-t választja. Ha ilyen nincs, az univerzális csomagot használja, ha van csatolva, különben az egyetlen APK-t.
 - A frissítéshez ugyanaz a csomagnév és ugyanaz az aláíró kulcs kell.
 
 ### 3. Ágak
-- **`dev`:** ide kerülnek az upstream béta címkéi. A mostani címke a `0.6.11-beta`. A beolvasztás megtartja a fork csomagnevét és frissítési csatornáját.
-- **`main`:** az alapértelmezett ág. Ezen a vonalon az upstream a `0.4.21` óta nem adott ki stabil címkét, ezért a main nem megy vissza arra a régi címkére. A következő stabil címke ide olvad be.
-- A `cmp-rewrite` ág maga nem kerül át. A béta címke előtt járhat.
+- **`main`:** az egyetlen ág, amin ez a termékfork dolgozik. Az aláírt stabil kiadások innen jelennek meg.
+- Az upstream címkék a `main`-be olvadnak be (nem reset), így a fork csomagneve, aláírása és a MediaTrail funkciók megmaradnak.
 
 ---
 

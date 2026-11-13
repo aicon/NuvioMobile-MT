@@ -50,15 +50,13 @@ A manual engine choice for the current playback overrides this.
 
 ### 4. Custom In-App Updater
 The built-in updater reads public releases from `aicon/NuvioMobile-MT`:
-- **Stable Channel:** the latest release that is not a pre-release, published from `main`.
-- **Beta Channel:** the highest version among the releases from `dev`, including pre-releases.
+- Uses the latest stable release (`releases/latest` on `main`).
 - It picks the APK whose name matches the phone CPU. If none matches, it uses a universal APK when one is attached, otherwise the only APK.
 - An update needs the same package id and the same signing key.
 
 ### 3. Branches
-- **`dev`:** upstream beta tags are merged here. The current tag is `0.6.11-beta`. The fork's package id and update channel stay in the merge.
-- **`main`:** the default branch. Upstream has not tagged a stable release on this line since `0.4.21`, so main is not moved back onto that old tag. The next stable tag merges here.
-- The `cmp-rewrite` branch itself is not merged. It can sit ahead of the beta tag.
+- **`main`:** the only branch used for this product fork. Signed stable releases are published from here.
+- Upstream tags are merged into `main` (not reset), so fork package id, signing, and MediaTrail features stay.
 
 ---
 

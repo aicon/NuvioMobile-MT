@@ -196,7 +196,7 @@ jobs:
             echo "- \`armeabi-v7a\` for 32-bit phones"
             echo "- \`arm64-v8a\` for current 64-bit phones"
             echo "- \`x86\` and \`x86_64\` for emulators"
-            echo "- In-app updates use the Stable channel only (\`releases/latest\` on \`aicon/NuvioMobile-MT\`)."
+            echo "- In-app updates use \`releases/latest\` on \`aicon/NuvioMobile-MT\` (\`main\`)."
             echo
             echo "## What this fork adds"
             echo
