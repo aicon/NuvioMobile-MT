@@ -141,6 +141,27 @@ jobs:
         if: steps.version.outputs.exists != 'true'
         run: ./gradlew :androidApp:assembleFullRelease --stacktrace
 
+      - name: Rename APKs for release
+        if: steps.version.outputs.exists != 'true'
+        env:
+          RELEASE_VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          set -eu
+          outdir="androidApp/build/outputs/apk/full/release"
+          mapfile -t apks < <(find "${outdir}" -maxdepth 1 -type f -name '*.apk' -print | sort)
+          if (( ${#apks[@]} == 0 )); then
+            echo "No release APKs were produced." >&2
+            exit 1
+          fi
+          for apk in "${apks[@]}"; do
+            base="$(basename "${apk}")"
+            # androidApp-full-arm64-v8a-release.apk -> NuvioMobile-MT-{version}-full-arm64-v8a-release.apk
+            rest="${base#androidApp-}"
+            dest="${outdir}/NuvioMobile-MT-${RELEASE_VERSION}-${rest}"
+            mv "${apk}" "${dest}"
+            echo "Renamed ${base} -> $(basename "${dest}")"
+          done
+
       - name: Write release notes
         if: steps.version.outputs.exists != 'true'
         env:
@@ -170,7 +191,7 @@ jobs:
             echo
             echo "- Package: \`com.aicon.nuviomobile\` (unchanged — upgrades replace the previous fork install)"
             echo "- Launcher name: **Nuvio-MT**"
-            echo "- APK: \`arm64-v8a\` only (current 64-bit phones). No universal / 32-bit / emulator splits."
+            echo "- APK: \`NuvioMobile-MT-${RELEASE_VERSION}-full-arm64-v8a-release.apk\` (\`arm64-v8a\` only). No universal / 32-bit / emulator splits."
             echo "- In-app updates use the Stable channel only (\`releases/latest\` on \`aicon/NuvioMobile-MT\`)."
             echo
             echo "## What this fork adds"
