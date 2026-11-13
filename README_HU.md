@@ -25,7 +25,7 @@ Ez a fork azért készült, hogy a telefonos kliens a lehető legszorosabban mű
 ### 1. Párhuzamos telepíthetőség
 - **Csomagnév:** `com.aicon.nuviomobile`.
 - A hivatalos mobil Nuvio (`com.nuvio.app`) mellé települ, nem írja felül azt.
-- **Indítóikon neve:** **Nuvio**, angol és magyar rendszeren egyaránt.
+- **Indítóikon neve:** **Nuvio-MT**, angol és magyar rendszeren egyaránt.
 
 ### 2. MediaTrail lejátszás-szinkronizáció
 - Lejátszás közben továbbítja az eseményeket (`start`, `pause`, `progress`, `stop`) a `player` erőforrást hirdető addonoknak.
