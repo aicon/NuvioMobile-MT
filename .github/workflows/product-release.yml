@@ -163,28 +163,24 @@ jobs:
             fi
             echo "# ${RELEASE_TITLE}"
             echo
-            echo "Signed NuvioMobile-MT ${channel} build \`${RELEASE_VERSION}\` (versionCode \`${RELEASE_CODE}\`)."
+            echo "Signed **Nuvio-MT** ${channel} build \`${RELEASE_VERSION}\` (versionCode \`${RELEASE_CODE}\`)."
             echo "This is a personal product fork of NuvioMobile. It is not an official Nuvio build."
             echo
             echo "## Install"
             echo
-            echo "- Package: \`com.aicon.nuviomobile\`"
-            echo "- The package id is different from official Nuvio (\`com.nuvio.app\`), so this APK installs beside it and does not replace it."
-            echo "- The launcher name stays Nuvio."
-            echo "- Pick the APK that matches the device CPU. There is no universal APK."
-            echo "- \`armeabi-v7a\` for 32-bit devices"
-            echo "- \`arm64-v8a\` for current 64-bit phones"
-            echo "- \`x86\` and \`x86_64\` for emulators"
-            echo "- In-app updates read public releases from \`aicon/NuvioMobile-MT\`. Stable builds come from \`main\`. Beta builds come from \`dev\`."
+            echo "- Package: \`com.aicon.nuviomobile\` (unchanged — upgrades replace the previous fork install)"
+            echo "- Launcher name: **Nuvio-MT**"
+            echo "- APK: \`arm64-v8a\` only (current 64-bit phones). No universal / 32-bit / emulator splits."
+            echo "- In-app updates use the Stable channel only (\`releases/latest\` on \`aicon/NuvioMobile-MT\`)."
             echo
             echo "## What this fork adds"
             echo
-            echo "- **MediaTrail playback.** While something is playing, the app sends \`start\`, \`pause\`, \`progress\`, and \`stop\` to installed addons that declare the Stremio \`player\` resource. Install the [MediaTrail](https://github.com/aicon/MediaTrail) addon (\`…/nuvio/manifest.json\`); each install sends a stable \`deviceId\` and a model-based \`deviceName\` so phone and TV strips stay separate. Seek emits progress. Finished watches save at 90%. Progress is sent about every 30 seconds and not while paused. The switch is on by default under playback settings."
+            echo "- **MediaTrail Now Watching.** While something is playing, the app sends \`start\`, \`pause\`, \`progress\`, and \`stop\` to installed addons that declare the Stremio \`player\` resource. Install the [MediaTrail](https://github.com/aicon/MediaTrail) addon (\`…/nuvio/<token>/manifest.json\`); each install sends a stable \`deviceId\` and a model-based \`deviceName\` so phone and TV strips stay separate."
+            echo "- **MediaTrail library mark (optional).** Manual mark watched / unwatched also POSTs to \`/nuvio/watched.json\` with \`Authorization: Bearer\` (token never in the URL). Needs MediaTrail \`ghcr.io/aicon/mediatrail:dev\` (or newer). Failures never undo the local Nuvio mark."
             echo "- **Player engine.** The default engine is Auto. Movies and ordinary TV use ExoPlayer. Anime (Kitsu, MAL, AniList, or an anime genre) uses libmpv. AVI and XviD use libmpv even when the saved engine is ExoPlayer, unless an engine was chosen for that playback. HDR and Dolby Vision stay on ExoPlayer."
-            echo "- **Own update channel.** The built-in updater looks at this repository, not upstream NuvioMobile."
+            echo "- **Own update channel.** The built-in updater looks at this repository, Stable only — not upstream NuvioMobile."
             echo "- **Support.** The in-app support button opens [Ko-fi](https://ko-fi.com/aiconwg)."
-            echo "- **Community lists.** The supporters and contributors lists stay hidden until this fork has its own list. The Ko-fi button stays."
-            echo "- **Hungarian.** The Hungarian interface now follows the TV app. It uses the same informal voice, calls addons bővítmény, and translates the settings, subtitle, chapter, and rating screens that were still in English."
+            echo "- **Hungarian.** The Hungarian interface follows the TV app voice and translates the screens that were still in English."
             echo
             echo "The fork does not pause or resume playback from the MediaTrail page. Playback events go out to the addon. They do not come back as remote controls."
             echo
